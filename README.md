@@ -8,7 +8,7 @@ User authentication: Testing
 
 Display Hogar statistics: Testing  
 Display Hogar power history: Testing  
-Configure new Hogar: Testing
+Configure new Hogar: Testing  
 Delete Hogar: Testing  
 
 Display Smart Meter statistics: Testing  
