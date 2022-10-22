@@ -8,9 +8,8 @@ User authentication: Testing
 
 Display Hogar statistics: Testing  
 Display Hogar power history: Testing  
-Configure new Hogar: In progress...  
-Modify Hogar name: In progress...  
-Delete Hogar: In progress...  
+Configure new Hogar: Testing
+Delete Hogar: Testing  
 
 Display Smart Meter statistics: Testing  
 Display Smart Meter power history: Testing  

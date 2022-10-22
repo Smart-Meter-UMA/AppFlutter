@@ -68,19 +68,6 @@ class BackendComm {
     };
   }
 
-  //Sends an HTTPS POST request, returns the response. The response could be json
-  //object/s on successful or and json object with key 'message' containing the error
-  //string provided by the server, as specified in the protocol.
-  //WARNING: This method throws exceptions.
-  Future<String> sendPOST(String path, String request) async {
-    Uri url = Uri.https(apiUrl, path);
-
-    Map<String, String> headers = createHeaders();
-
-    final response = await http.post(url, body: request, headers: headers);
-    return response.body;
-  }
-
   //Sends an HTTPS GET request, returns the response. The response could be json
   //object/s on successful or and json object with key 'message' containing the error
   //string provided by the server, as specified in the protocol.
@@ -91,6 +78,19 @@ class BackendComm {
     Map<String, String> headers = createHeaders();
 
     final response = await http.get(url, headers: headers);
+    return response.body;
+  }
+
+  //Sends an HTTPS POST request, returns the response. The response could be json
+  //object/s on successful or and json object with key 'message' containing the error
+  //string provided by the server, as specified in the protocol.
+  //WARNING: This method throws exceptions.
+  Future<String> sendPOST(String path, String request) async {
+    Uri url = Uri.https(apiUrl, path);
+
+    Map<String, String> headers = createHeaders();
+
+    final response = await http.post(url, body: request, headers: headers);
     return response.body;
   }
 
@@ -188,7 +188,7 @@ class BackendComm {
 
   //Sends a new 'hogar' to the server.
   //Returns true on success or false on error.
-  Future<bool> postNewHogar(Hogar hogar) async {
+  Future<bool> sendNewHogar(Hogar hogar) async {
     //If there is an authenticated user
     if(token != null) {
       try {

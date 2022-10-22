@@ -7,6 +7,7 @@ import 'package:smart_meter/Widgets/NewDeviceConfiguration.dart';
 import 'package:smart_meter/main.dart';
 
 import '../Backend/JsonClasses.dart';
+import '../Dialogs/HogarDataDialog.dart';
 import 'DashboardItem.dart';
 
 class Dashboard extends StatefulWidget {
@@ -53,14 +54,36 @@ class DashboardState extends State<Dashboard> {
               ),
             ),
             ListTile(
-                leading: const Icon(Icons.add),
-                title: const Text("Crear Hogar"),
-                //TODO: onTap()
+              leading: const Icon(Icons.add),
+              title: const Text("Crear Hogar"),
+              onTap: (){
+                HogarDataDialog(
+                  "Datos del nuevo hogar",
+                  "Enviar",
+                  "Cancelar",
+                  onNewHogarUserData,
+                  (){} //Ignore on cancel
+                ).show(context);
+              }
             ),
             ListTile(
               leading: Icon(Icons.app_blocking),
               title: Text("Eliminar Hogar"),
-              //TODO: onTap()
+                onTap: () {
+                  if (hogares != null && hogares!.isNotEmpty) {
+                    ListPickerDialog(
+                      "Selecciona el hogar a eliminar",
+                      "Eliminar",
+                      "Cancelar",
+                      onDeleteHogarUserData,
+                      () {}, //Ignore on cancel
+                      List.generate(hogares!.length, (i) => hogares![i].nombre)
+                    ).show(context);
+                  }
+                  else{
+                    showError(context, "No hay datos sobre ningún hogar");
+                  }
+                }
             ),
             ListTile(
               leading: const Icon(Icons.exit_to_app),
@@ -99,6 +122,49 @@ class DashboardState extends State<Dashboard> {
           }
       ),
     ));
+  }
+
+  void onNewHogarUserData(Hogar hogar) async {
+    ProgressDialog progress = const ProgressDialog("Enviando");
+
+    progress.show(context);
+    bool ok = await widget.backend.sendNewHogar(hogar);
+
+    if(mounted){
+      if(ok){
+        showError(context, 'Nuevo hogar "${hogar.nombre}" creado');
+        forceDataUpdate();
+      }
+      else{
+        showError(context, "Error creando nuevo hogar");
+      }
+    }
+  }
+
+  void onDeleteHogarUserData(int index) async {
+    ProgressDialog progress = const ProgressDialog("Eliminando");
+
+    progress.show(context);
+    bool ok = await widget.backend.deleteHogar(hogares![index]);
+
+    if(mounted){
+      if(ok){
+        showError(context, 'Hogar "${hogares![index].nombre}" eliminado');
+        forceDataUpdate();
+      }
+      else{
+        showError(context, "Error eliminando nuevo hogar");
+      }
+    }
+  }
+
+  void forceDataUpdate(){
+    setState(() {
+      hogares = null;
+      dispositivosWithoutStadistics = null;
+      dispositivosWithStadistics = null;
+      futureDashboarItems = getDashboardItems();
+    });
   }
 
   void signOut() async {
