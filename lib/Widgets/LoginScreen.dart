@@ -2,11 +2,13 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:smart_meter/Backend/BackendComm.dart';
 import 'package:smart_meter/Dialogs/ProgressDialog.dart';
+import 'package:smart_meter/main.dart';
 
 class LoginScreen extends StatefulWidget {
   final BackendComm backend;
+  final AppRootState appRoot;
 
-  const LoginScreen(this.backend, {Key? key}) : super(key: key);
+  const LoginScreen(this.backend, this.appRoot, {Key? key}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => LoginScreenState();
@@ -26,9 +28,33 @@ class LoginScreenState extends State<LoginScreen>{
       body: Center(
         child: Container(
           margin: EdgeInsets.all(25),
-          child: ElevatedButton(
+          child: OutlinedButton(
+            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.white)),
             onPressed: login,
-            child: const Text("Iniciar sesión con Google"),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const <Widget>[
+                  Image(
+                    image: AssetImage("assets/google_logo.png"),
+                    height: 35.0,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Text(
+                      'Iniciar sesión con Google',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black54,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
           )
         )
       )

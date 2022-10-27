@@ -3,7 +3,6 @@ import 'package:smart_meter/Dialogs/ListPickerDialog.dart';
 import 'package:smart_meter/Dialogs/ProgressDialog.dart';
 
 import 'package:smart_meter/Backend/BackendComm.dart';
-import 'package:smart_meter/Widgets/NewDeviceConfiguration.dart';
 import 'package:smart_meter/main.dart';
 
 import '../Backend/JsonClasses.dart';
@@ -67,8 +66,8 @@ class DashboardState extends State<Dashboard> {
               }
             ),
             ListTile(
-              leading: Icon(Icons.app_blocking),
-              title: Text("Eliminar Hogar"),
+              leading: const Icon(Icons.app_blocking),
+              title: const Text("Eliminar Hogar"),
                 onTap: () {
                   if (hogares != null && hogares!.isNotEmpty) {
                     ListPickerDialog(
@@ -131,6 +130,7 @@ class DashboardState extends State<Dashboard> {
     bool ok = await widget.backend.sendNewHogar(hogar);
 
     if(mounted){
+      progress.dismiss(context);
       if(ok){
         showError(context, 'Nuevo hogar "${hogar.nombre}" creado');
         forceDataUpdate();
@@ -148,8 +148,9 @@ class DashboardState extends State<Dashboard> {
     bool ok = await widget.backend.deleteHogar(hogares![index]);
 
     if(mounted){
+      progress.dismiss(context);
       if(ok){
-        showError(context, 'Hogar "${hogares![index].nombre}" eliminado');
+        //showError(context, 'Hogar "${hogares![index].nombre}" eliminado');
         forceDataUpdate();
       }
       else{
@@ -220,6 +221,8 @@ class DashboardState extends State<Dashboard> {
           throw "Error: Backend error fetching 'dispositivo' with statistics from the 'dispositivo'";
         }
       }
+
+      dispositivosWithStadistics = tempDispositivos;
     }
     //Store the results
     if(this.hogares == null || this.dispositivosWithoutStadistics == null || this.dispositivosWithStadistics == null) {
@@ -237,12 +240,13 @@ class DashboardState extends State<Dashboard> {
       return ListView(
         padding: const EdgeInsets.all(16),
         children: List<DashboardItem>.generate(hogares.length, (i) =>
-            DashboardItem(
-                hogares![i],
-                powersAndCosts[0][i],
-                powersAndCosts[1][i],
-                this.dispositivosWithStadistics!
-            )
+          DashboardItem(
+            hogares![i],
+            powersAndCosts[0][i],
+            powersAndCosts[1][i],
+            getDispositivosFromHogar(hogares[i], this.dispositivosWithStadistics!),
+            widget.backend
+          )
         ),
       );
     }
@@ -250,10 +254,27 @@ class DashboardState extends State<Dashboard> {
       return ListView(
         padding: const EdgeInsets.all(16),
         children: const [
-          Text("No se han encontrado hogares")
+          Center(
+            child: Text(
+              "No se han encontrado hogares",
+              textScaleFactor: 1.5,
+            )
+        )
         ]
       );
     }
+  }
+
+  static List<Dispositivo> getDispositivosFromHogar(Hogar hogar, List<Dispositivo> candidates){
+    List<Dispositivo> foundList = List.empty(growable: true);
+
+    for(Dispositivo candidate in candidates){
+      if(candidate.hogar!.id == hogar.id){
+        foundList.add(candidate);
+      }
+    }
+
+    return foundList;
   }
 
   List<List<double>> getHoagresTodayPowerAndCosts(){
@@ -280,12 +301,5 @@ class DashboardState extends State<Dashboard> {
     }
 
     return powersAndCosts;
-  }
-
-  void onNewDeviceHogarSelected(int index){
-    Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => NewDeviceConfiguration(widget.backend, hogares![index]))
-    );
   }
 }

@@ -39,17 +39,17 @@ class BluetoothHelper{
     bool error = false;
 
     StreamSubscription subscription = bluetooth.scanForDevices(
-      withServices: [], //Scan for all services
-      scanMode: ScanMode.lowLatency
+        withServices: [], //Scan for all services
+        scanMode: ScanMode.lowLatency
     ).listen(
-      handler.onDeviceDiscovered,
-      onError: (Object e, StackTrace trace){
-        handler.onDiscoveryError(e, trace); error = true;
-      },
-      cancelOnError: true
+        handler.onDeviceDiscovered,
+        onError: (Object e, StackTrace trace){
+          handler.onDiscoveryError(e, trace); error = true;
+        },
+        cancelOnError: true
     );
 
-    Future.delayed(Duration(seconds: 5), () async {
+    Future.delayed(const Duration(seconds: 5), () async {
       await subscription.cancel();
 
       if(!error){
@@ -278,13 +278,15 @@ class DiscoveryResultHandler{
   }
 
   void onDiscoveryError(Object e, StackTrace trace){
-    print("Error: Error discovering bluetooth devices:");
-    print(e.toString());
-    print(trace.toString());
+    if (kDebugMode) {
+      print("Error: Error discovering bluetooth devices:");
+      print(e.toString());
+      print(trace.toString());
+    }
     onScanCompleted(false, List.empty());
   }
 
   void onDiscoveryCompleted() async {
-    onScanCompleted(true, ['Smart Meter']);//await bluetoothHelper.analiseDiscoveredDevices());//TODO: Debug
+    onScanCompleted(true, await bluetoothHelper.analiseDiscoveredDevices());
   }
 }

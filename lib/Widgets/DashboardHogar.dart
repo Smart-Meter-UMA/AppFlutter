@@ -111,20 +111,20 @@ class DashboardHogarState extends State<DashboardHogar>{
       return ListView(
         padding: const EdgeInsets.all(16),
         children: List<DashboardHogarItem>.generate(widget.dispositivos.length, (i) =>
-            DashboardHogarItem(
-                widget.dispositivos[i],
-                medidasList[i],
-                medidasList[i].last
-            )
+          DashboardHogarItem(
+            widget.dispositivos[i],
+            medidasList[i],
+            lastMedidias[i]
+          )
         ),
       );
     }
     else{
       return ListView(
-          padding: const EdgeInsets.all(16),
-          children: const [
-            Text("No se han encontrado dispositivos")
-          ]
+        padding: const EdgeInsets.all(16),
+        children: const [
+          Text("No se han encontrado dispositivos")
+        ]
       );
     }
   }

@@ -45,7 +45,7 @@ class DashboardHogarItemState extends State<DashboardHogarItem> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(10),
               child :Column(
                 children: [
                   const Text(
@@ -54,25 +54,25 @@ class DashboardHogarItemState extends State<DashboardHogarItem> {
                       style: TextStyle(fontWeight: FontWeight.bold)
                   ),
                   Text(
-                    widget.lastMedida != null ? widget.lastMedida!.kw.toString() + " W" : "Sin datos" ,
-                    textScaleFactor: 2,
+                    widget.lastMedida != null ? widget.lastMedida!.kw.toStringAsFixed(2) + " KW" : "Sin datos" ,
+                    textScaleFactor: 1.5,
                     //style: TextStyle(fontWeight: FontWeight.bold)
                   ),
                 ],
               ),
             ),
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(10),
               child :Column(
                 children: [
                   const Text(
                     "Actualizado",
-                    textScaleFactor: 0.5,
+                    textScaleFactor: 1.25,
                     style: TextStyle(fontWeight: FontWeight.bold)
                   ),
                   Text(
                     widget.lastMedida != null ? getLastUpdatedToText(widget.lastMedida!.fecha) : "Sin datos",
-                    textScaleFactor: 0.75,
+                    textScaleFactor: 1.5,
                     //style: TextStyle(fontWeight: FontWeight.bold)
                   ),
                 ],
@@ -93,8 +93,8 @@ class DashboardHogarItemState extends State<DashboardHogarItem> {
                   xValueMapper: (Medida medida, _) => medida.fecha,
                   yValueMapper: (Medida medida, _) => medida.kw,
                   name: 'Potencia',
-                  // Enable data label
-                  dataLabelSettings: const DataLabelSettings(isVisible: false))
+                  dataLabelSettings: const DataLabelSettings(isVisible: false)
+                )
               ]
             )
           ],

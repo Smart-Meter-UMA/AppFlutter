@@ -59,31 +59,33 @@ class WifiNamePassDialogState extends State<WifiNamePassDialog>{
             }
         ),
       ],
-      content: Row(
-        children: [
-          Container(
+      content: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
               padding: const EdgeInsets.all(5),
               width: double.maxFinite,
               child: TextField(
-                decoration: const InputDecoration.collapsed(
+                decoration: const InputDecoration(
                     hintText: "Nombre de la red WiFi"
                 ),
                 controller: nameController,
                 enableSuggestions: false,
               )
-          ),
-          Container(
+            ),
+            Container(
               padding: const EdgeInsets.all(5),
               width: double.maxFinite,
               child: TextField(
-                decoration: const InputDecoration.collapsed(
+                decoration: const InputDecoration(
                     hintText: "Contraseña de la red WiFi"
                 ),
                 controller: passController,
                 enableSuggestions: false,
               )
-          ),
-        ]
+            ),
+          ]
+        )
       )
     );
   }

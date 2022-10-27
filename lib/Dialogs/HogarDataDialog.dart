@@ -69,33 +69,35 @@ class HogarDataDialogState extends State<HogarDataDialog>{
           }
         ),
       ],
-      content: ListView(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(5),
-            width: double.maxFinite,
-            child: TextField(
-              decoration: const InputDecoration.collapsed(
-                hintText: "Nombre"
-              ),
-              controller: nameController,
-              enableSuggestions: false,
-              keyboardType: TextInputType.name,
-            )
-          ),
-          Container(
-            padding: const EdgeInsets.all(5),
-            width: double.maxFinite,
-            child: TextField(
-              decoration: const InputDecoration.collapsed(
-                hintText: "Potencia contratada"
-              ),
-              controller: potenciaContratadaController,
-              enableSuggestions: false,
-              keyboardType: const TextInputType.numberWithOptions(),
-            )
-          ),
-        ]
+      content: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(5),
+              width: double.maxFinite,
+              child: TextField(
+                decoration: const InputDecoration(
+                  hintText: "Nombre"
+                ),
+                controller: nameController,
+                enableSuggestions: false,
+                keyboardType: TextInputType.name,
+              )
+            ),
+            Container(
+              padding: const EdgeInsets.all(5),
+              width: double.maxFinite,
+              child: TextField(
+                decoration: const InputDecoration(
+                  hintText: "Potencia contratada"
+                ),
+                controller: potenciaContratadaController,
+                enableSuggestions: false,
+                keyboardType: const TextInputType.numberWithOptions(),
+              )
+            ),
+          ]
+        )
       )
     );
   }

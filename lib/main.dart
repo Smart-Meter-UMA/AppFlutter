@@ -23,10 +23,10 @@ class AppRoot extends StatefulWidget {
   }
 
   @override
-  State<AppRoot> createState() => _AppRootState();
+  State<AppRoot> createState() => AppRootState();
 }
 
-class _AppRootState extends State<AppRoot> {
+class AppRootState extends State<AppRoot> {
   @override
   Widget build(BuildContext context) {
     widget.backend.setUserChangeListener(context, this.onLoggedIn, this.onLoggedOut);
@@ -36,10 +36,10 @@ class _AppRootState extends State<AppRoot> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: AppRoot.appMainColor,
-        scaffoldBackgroundColor: AppRoot.appMainColor,
+        backgroundColor: const Color(0xFFFFFFEF),
       ),
       routes: <String, WidgetBuilder>{
-        AppRoot.loginRoute: (context) => LoginScreen(widget.backend),
+        AppRoot.loginRoute: (context) => LoginScreen(widget.backend, this),
         AppRoot.homeDashboardRoute: (context) => Dashboard(widget.backend)
       },
       initialRoute: AppRoot.loginRoute

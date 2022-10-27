@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:smart_meter/Backend/BackendComm.dart';
+import 'package:smart_meter/Widgets/DashboardHogar.dart';
+import 'package:smart_meter/main.dart';
 
 import '../Backend/JsonClasses.dart';
 
@@ -7,9 +10,10 @@ class DashboardItem extends StatefulWidget{
   final double todayPower;
   final double todayCost;
   final List<Dispositivo> dispositivosWithStadistics;
+  final BackendComm backend;
 
   const DashboardItem(this.hogar, this.todayPower, this.todayCost,
-      this.dispositivosWithStadistics, {Key? key}) : super(key: key);
+      this.dispositivosWithStadistics, this.backend, {Key? key}) : super(key: key);
 
   @override
   State<DashboardItem> createState() => DashboardItemState();
@@ -23,14 +27,26 @@ class DashboardItemState extends State<DashboardItem> {
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: InkWell(
-        //TODO: Implement onTap: ,
+        onTap: (){
+          Navigator.push(
+              context, MaterialPageRoute(
+              builder: (context) {
+                return DashboardHogar(
+                    widget.backend,
+                    widget.hogar,
+                    widget.dispositivosWithStadistics
+                );
+              }
+            )
+          );
+        },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
               padding: const EdgeInsets.all(5),
               decoration: const BoxDecoration(
-                color: Colors.blueGrey,
+                color: AppRoot.appMainColor,
                 //border: Border.all(),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20),
@@ -54,8 +70,8 @@ class DashboardItemState extends State<DashboardItem> {
                       style: TextStyle(fontWeight: FontWeight.bold)
                   ),
                   Text(
-                    widget.todayPower.toString(),
-                    textScaleFactor: 2,
+                    widget.todayPower.toStringAsFixed(2) + "KWh",
+                    textScaleFactor: 1.5,
                     //style: TextStyle(fontWeight: FontWeight.bold)
                   ),
                 ],
@@ -71,8 +87,8 @@ class DashboardItemState extends State<DashboardItem> {
                       style: TextStyle(fontWeight: FontWeight.bold)
                   ),
                   Text(
-                    widget.todayCost.toString(),
-                    textScaleFactor: 2,
+                    widget.todayCost.toStringAsFixed(2) + '\u{20AC}',
+                    textScaleFactor: 1.5,
                     //style: TextStyle(fontWeight: FontWeight.bold)
                   ),
                 ],

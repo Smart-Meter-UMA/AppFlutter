@@ -57,12 +57,17 @@ class TextFieldDialogState extends State<TextFieldDialog>{
             }
         ),
       ],
-      content: Container(
-        width: double.maxFinite,
-        child: TextField(
-          controller: textController,
+      content: SingleChildScrollView(
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: TextField(
+                controller: textController,
+              )
+            )
+          ]
         )
-      ),
+      )
     );
   }
 }

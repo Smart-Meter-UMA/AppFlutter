@@ -42,7 +42,7 @@ class NewDeviceConfigurationState extends State<NewDeviceConfiguration>{
   String? wifiPass;
   String? token;
   String? name;
-  int? bluetoothListIndex = 0;
+  int? bluetoothListIndex;
 
   NewDeviceConfigurationState(){
     actualScreen = BluetoothSearchScreen(this);
@@ -132,7 +132,7 @@ class NewDeviceConfigurationState extends State<NewDeviceConfiguration>{
       case NAME_CONFIGURATION_SCREEN:
         if(name != null){
           //Configure device
-          ProgressDialog progress = const ProgressDialog("Obteniedo claves del nuevo dispositivo");
+          ProgressDialog progress = const ProgressDialog("Obteniedo nuevas claves");
           progress.show(context);
 
           //Get the device token
@@ -288,7 +288,11 @@ class BluetoothSearchScreenState extends State<BluetoothSearchScreen> {
                 "Sececcionar",
                 "Cancelar",
                 (selected) async {
+                  ProgressDialog progress = ProgressDialog("Conectando");
+                  progress.show(context);
+
                   widget.deviceState.bluetooth.connect(selected, (ok) {
+                    progress.dismiss(context);
                     if(ok) {
                       setState(() {
                         widget.deviceState.bluetoothListIndex = selected;
@@ -383,7 +387,7 @@ class _WifiConfigurationScreenState extends State<WifiConfigurationScreen> {
                 Padding(
                   padding: const EdgeInsets.all(10),
                   child: Text(
-                    widget.deviceState.wifiPass != null ? widget.deviceState.wifiPass.toString() : "",
+                    widget.deviceState.wifiPass != null ? widget.deviceState.wifiPass.toString().replaceAll(RegExp("."), "*") : "",
                     textScaleFactor: 1.25,
                   )
                 ),
@@ -471,7 +475,7 @@ class _WifiConfigurationScreenState extends State<WifiConfigurationScreen> {
           () { }//Ignore onCancel
       );
 
-      widget.deviceState.showError(context, "Error: Error buscando puntos de acceso");
+      widget.deviceState.showError(context, "Error: Tu sistema no permite buscar puntos de acceso de forma automatica");
       dialog.show(context);
     }
   }

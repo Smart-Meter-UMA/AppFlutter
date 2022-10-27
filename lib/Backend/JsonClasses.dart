@@ -272,41 +272,41 @@ class Estadistica{
   DateTime fechaHoy;
 
   double consumidoHoy;
-  double consumidoMes;
+  double? consumidoMes;
 
   double sumaDiaDinero;
-  double sumaMesDinero;
+  double? sumaMesDinero;
 
-  double mediaKWHDiaria;
-  double mediaKWHMensual;
+  double? mediaKWHDiaria;
+  double? mediaKWHMensual;
 
-  List<DateTime> tramosHoras;
-  List<DateTime> tramoSemanal;
-  List<DateTime> tramosMensual;
+  List<DateTime>? tramosHoras;
+  List<DateTime>? tramoSemanal;
+  List<DateTime>? tramosMensual;
 
-  TramosHoras tramosHorasMedia;
-  TramosSemanal tramosSemanalMedia;
-  TramosMensual tramosMensualMedia;
+  TramosHoras? tramosHorasMedia;
+  TramosSemanal? tramosSemanalMedia;
+  TramosMensual? tramosMensualMedia;
 
-  List<Historico> historicoDiario;
-  List<Historico> historicoMensual;
+  List<Historico>? historicoDiario;
+  List<Historico>? historicoMensual;
 
   Estadistica({
     required this.fechaHoy,
     required this.consumidoHoy,
-    required this.consumidoMes,
+    this.consumidoMes,
     required this.sumaDiaDinero,
-    required this.sumaMesDinero,
-    required this.mediaKWHDiaria,
-    required this.mediaKWHMensual,
-    required this.tramosHoras,
-    required this.tramoSemanal,
-    required this.tramosMensual,
-    required this.tramosHorasMedia,
-    required this.tramosSemanalMedia,
-    required this.tramosMensualMedia,
-    required this.historicoDiario,
-    required this.historicoMensual
+    this.sumaMesDinero,
+    this.mediaKWHDiaria,
+    this.mediaKWHMensual,
+    this.tramosHoras,
+    this.tramoSemanal,
+    this.tramosMensual,
+    this.tramosHorasMedia,
+    this.tramosSemanalMedia,
+    this.tramosMensualMedia,
+    this.historicoDiario,
+    this.historicoMensual
   });
 
   factory Estadistica.fromJson(Map<String, dynamic> json){
