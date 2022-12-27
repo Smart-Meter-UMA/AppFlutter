@@ -57,28 +57,25 @@ class ListPickerDialogState extends State<ListPickerDialog>{
           }
         ),
       ],
-      content: Container(
-        width: double.maxFinite,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: widget.items.length,
-              itemBuilder: (BuildContext context, int index){
-                return RadioListTile(
-                  title: Text(widget.items[index]),
-                  value: index,
-                  groupValue: actual,
-                  onChanged: (value){
-                    setState(() {
-                      actual = index;
-                    });
-                  }
-                );
-              }
-            ),
-          ],
+      content: Center(
+        child: Container(
+          width: double.maxFinite,
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: widget.items.length,
+            itemBuilder: (BuildContext context, int index){
+              return RadioListTile(
+                title: Text(widget.items[index]),
+                value: index,
+                groupValue: actual,
+                onChanged: (value){
+                  setState(() {
+                    actual = index;
+                  });
+                }
+              );
+            }
+          ),
         ),
       ),
     );
