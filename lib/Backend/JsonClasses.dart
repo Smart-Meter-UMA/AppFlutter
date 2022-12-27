@@ -26,7 +26,7 @@ class Hogar{
 
   static List<Hogar> fromJsonList(dynamic json){
     List list = json as List;
-    return list.map((tagJson) => Hogar.fromJson(tagJson)).toList();
+    return list.map((hogar) => Hogar.fromJson(hogar)).toList();
   }
 }
 
@@ -51,16 +51,16 @@ class Usuario{
   }
 
   Map toJson() => {
-    id: id,
-    nombre: nombre,
-    apellidos: apellidos,
-    email: email,
-    notificacion_invitados: notificacion_invitados
+    "id": id,
+    "nombre": nombre,
+    "apellidos": apellidos,
+    "email": email,
+    "notificacion_invitados": notificacion_invitados
   };
 
   static List<Usuario> fromJsonList(dynamic json){
     List list = json as List;
-    return list.map((tagJson) => Usuario.fromJson(tagJson)).toList();
+    return list.map((usuario) => Usuario.fromJson(usuario)).toList();
   }
 }
 
@@ -120,7 +120,7 @@ class Dispositivo{
 
   static List<Dispositivo> fromJsonList(dynamic json){
     List list = json as List;
-    return list.map((tagJson) => Dispositivo.fromJson(tagJson)).toList();
+    return list.map((dispositivo) => Dispositivo.fromJson(dispositivo)).toList();
   }
 }
 
@@ -147,7 +147,7 @@ class Medida{
 
   static List<Medida> fromJsonList(dynamic json){
     List list = json as List;
-    return list.map((tagJson) => Medida.fromJson(tagJson)).toList();
+    return list.map((medida) => Medida.fromJson(medida)).toList();
   }
 }
 
@@ -182,7 +182,7 @@ class Historico{
 
   static List<Historico> fromJsonList(dynamic json){
     List list = json as List;
-    return list.map((tagJson) => Historico.fromJson(tagJson)).toList();
+    return list.map((histirico) => Historico.fromJson(histirico)).toList();
   }
 }
 
