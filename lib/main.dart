@@ -2,10 +2,8 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:smart_meter/Backend/BackendComm.dart';
 
-import 'Backend/JsonClasses.dart';
 import 'Widgets/LoginScreen.dart';
 import 'Widgets/Dashboard.dart';
-import 'Widgets/NewDeviceConfiguration.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();

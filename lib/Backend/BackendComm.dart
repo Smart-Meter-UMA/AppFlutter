@@ -161,7 +161,7 @@ class BackendComm {
           try {
             if (kDebugMode) {
               Map<String, dynamic> jsonResponse = json.decode(response);
-              String error = jsonResponse['mensage'] ?? "";
+              String error = jsonResponse['mensaje'] ?? "";
               print("Error: Server send error message for 'hogares' GET:\n");
               print(error);
             }
@@ -202,7 +202,7 @@ class BackendComm {
           }
           else if (jsonResponse.containsKey("message")) {
             if (kDebugMode) {
-              String error = jsonResponse['mensage'];
+              String error = jsonResponse['mensaje'];
               print("Error: Server send error message for 'hogares' GET:\n");
               print(error);
             }
@@ -250,7 +250,7 @@ class BackendComm {
           try {
             if (kDebugMode) {
               Map<String, dynamic> jsonResponse = json.decode(response);
-              String error = jsonResponse['mensage'] ?? "";
+              String error = jsonResponse['mensaje'] ?? "";
               print(
                   "Error: Server send error message for 'dispositivo' POST:\n");
               print(error);
@@ -294,7 +294,7 @@ class BackendComm {
           try {
             if (kDebugMode) {
               Map<String, dynamic> jsonResponse = json.decode(response);
-              String error = jsonResponse['mensage'] ?? "";
+              String error = jsonResponse['mensaje'] ?? "";
               print("Error: Server send error message for 'dispositivos' from 'hogare' GET:\n");
               print(error);
             }
@@ -319,7 +319,7 @@ class BackendComm {
     return null;
   }
 
-  //Sends an HTTP UPDATE request for the provided 'hogar' to the server.
+  //Sends an HTTP PUT request for the provided 'hogar' to the server.
   //Returns true on success or false on error
   Future<bool> updateHogar(Hogar hogar) async {
     //If there is an authenticated user
@@ -337,7 +337,7 @@ class BackendComm {
 
             if (jsonResponse.containsKey("message")) {
               if (kDebugMode) {
-                String error = jsonResponse['mensage'];
+                String error = jsonResponse['mensaje'];
                 print("Error: Server send error message for 'hogar' PUT:\n");
                 print(error);
               }
@@ -385,7 +385,7 @@ class BackendComm {
 
             if (jsonResponse.containsKey("message")) {
               if (kDebugMode) {
-                String error = jsonResponse['mensage'];
+                String error = jsonResponse['mensaje'];
                 print("Error: Server send error message for 'hogar' DELETE:\n");
                 print(error);
               }
@@ -442,7 +442,7 @@ class BackendComm {
             try {
               if (kDebugMode) {
                 Map<String, dynamic> jsonResponse = json.decode(response);
-                String error = jsonResponse['mensage'] ?? "";
+                String error = jsonResponse['mensaje'] ?? "";
                 print(
                     "Error: Server send error message for 'medidas' from 'dispositivos' GET:\n");
                 print(error);
@@ -503,7 +503,7 @@ class BackendComm {
             try {
               if (kDebugMode) {
                 Map<String, dynamic> jsonResponse = json.decode(response);
-                String error = jsonResponse['mensage'] ?? "";
+                String error = jsonResponse['mensaje'] ?? "";
                 print(
                     "Error: Server send error message for last 'medida' from 'dispositivos' GET:\n");
                 print(error);
@@ -550,7 +550,7 @@ class BackendComm {
           try {
             if (kDebugMode) {
               Map<String, dynamic> jsonResponse = json.decode(response);
-              String error = jsonResponse['mensage'] ?? "";
+              String error = jsonResponse['mensaje'] ?? "";
               print("Error: Server send error message for 'dispositivo' with statistics from the 'dispositivo' GET:\n");
               print(error);
             }

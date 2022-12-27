@@ -123,61 +123,67 @@ class BluetoothHelper{
   }
 
   Future<String?> readToken(int index) async{
-    String? response;
-
-    //This is necessary for reading the characteristic
-    final characteristic = QualifiedCharacteristic(
-      deviceId: smartMeters.elementAt(index).id,
-      serviceId: smartMetersServices.elementAt(index).first.serviceId,
-      characteristicId: smartMeterTokenUuid,
+    return readFromCharacteristic(
+        smartMeters.elementAt(index).id,
+        smartMetersServices.elementAt(index).first.serviceId,
+        smartMeterTokenUuid
     );
-
-    try {
-      List<int> bytes = await bluetooth.readCharacteristic(characteristic);
-      return utf8.decode(bytes);
-    }
-    catch(e){
-      if (kDebugMode) {
-        print("Error reading token from Bluetooth\n");
-        print(e);
-      }
-    }
-
-    return response;
   }
 
   Future<String?> readWifiName(int index) async{
-    String? response;
-
-    //This is necessary for reading the characteristic
-    final characteristic = QualifiedCharacteristic(
-      deviceId: smartMeters.elementAt(index).id,
-      serviceId: smartMetersServices.elementAt(index).first.serviceId,
-      characteristicId: smartMeterWifiNameUuid,
+    return readFromCharacteristic(
+        smartMeters.elementAt(index).id,
+        smartMetersServices.elementAt(index).first.serviceId,
+        smartMeterWifiNameUuid
     );
-
-    try {
-      List<int> bytes = await bluetooth.readCharacteristic(characteristic);
-      return utf8.decode(bytes);
-    }
-    catch(e){
-      if (kDebugMode) {
-        print("Error reading wifi name from Bluetooth\n");
-        print(e);
-      }
-    }
-
-    return response;
   }
 
   Future<String?> readWifiPass(int index) async{
+    return readFromCharacteristic(
+        smartMeters.elementAt(index).id,
+        smartMetersServices.elementAt(index).first.serviceId,
+        smartMeterWifiPassUuid
+    );
+  }
+
+  Future<bool> writeToken(int index, String data) async{
+    return writeCharacteristic(
+        smartMeters.elementAt(index).id,
+        smartMetersServices.elementAt(index).first.serviceId,
+        smartMeterTokenUuid,
+        data
+    );
+  }
+
+  Future<bool> writeWifiName(int index, String data) async{
+    return writeCharacteristic(
+        smartMeters.elementAt(index).id,
+        smartMetersServices.elementAt(index).first.serviceId,
+        smartMeterWifiNameUuid,
+        data
+    );
+  }
+
+  Future<bool> writeWifiPass(int index, String data) async{
+    return writeCharacteristic(
+      smartMeters.elementAt(index).id,
+      smartMetersServices.elementAt(index).first.serviceId,
+      smartMeterWifiPassUuid,
+      data
+    );
+  }
+
+  //Reads "data" to a characteristic,
+  //"deviceId" is the device's MAC address.
+  //Returns the data in a utf8 String, or null on error
+  Future<String?> readFromCharacteristic(String deviceId, Uuid serviceUUID, Uuid characteristicUUID,) async{
     String? response;
 
     //This is necessary for reading the characteristic
     final characteristic = QualifiedCharacteristic(
-      deviceId: smartMeters.elementAt(index).id,
-      serviceId: smartMetersServices.elementAt(index).first.serviceId,
-      characteristicId: smartMeterWifiPassUuid,
+      deviceId: deviceId,
+      serviceId: serviceUUID,
+      characteristicId: characteristicUUID,
     );
 
     try {
@@ -194,12 +200,15 @@ class BluetoothHelper{
     return response;
   }
 
-  Future<bool> writeToken(int index, String data) async{
+  //Writes "data" to a characteristic,
+  //"deviceId" is the device's MAC address.
+  //Reruns if the write was a success.
+  Future<bool> writeCharacteristic(String deviceId, Uuid serviceUUID, Uuid characteristicUUID, String data) async{
     //This is necessary for reading the characteristic
     final characteristic = QualifiedCharacteristic(
-      deviceId: smartMeters.elementAt(index).id,
-      serviceId: smartMetersServices.elementAt(index).first.serviceId,
-      characteristicId: smartMeterWifiPassUuid,
+      deviceId: deviceId,
+      serviceId: serviceUUID,
+      characteristicId: characteristicUUID,
     );
 
     try {
@@ -208,49 +217,7 @@ class BluetoothHelper{
     }
     catch(e){
       if (kDebugMode) {
-        print("Error writing token to Bluetooth\n");
-        print(e);
-      }
-      return false;
-    }
-  }
-
-  Future<bool> writeWifiName(int index, String data) async{
-    //This is necessary for reading the characteristic
-    final characteristic = QualifiedCharacteristic(
-      deviceId: smartMeters.elementAt(index).id,
-      serviceId: smartMetersServices.elementAt(index).first.serviceId,
-      characteristicId: smartMeterWifiNameUuid,
-    );
-
-    try {
-      await bluetooth.writeCharacteristicWithResponse(characteristic, value: utf8.encode(data));
-      return true;
-    }
-    catch(e){
-      if (kDebugMode) {
-        print("Error writing wifi name to Bluetooth\n");
-        print(e);
-      }
-      return false;
-    }
-  }
-
-  Future<bool> writeWifiPass(int index, String data) async{
-    //This is necessary for reading the characteristic
-    final characteristic = QualifiedCharacteristic(
-      deviceId: smartMeters.elementAt(index).id,
-      serviceId: smartMetersServices.elementAt(index).first.serviceId,
-      characteristicId: smartMeterWifiPassUuid,
-    );
-
-    try {
-      await bluetooth.writeCharacteristicWithResponse(characteristic, value: utf8.encode(data));
-      return true;
-    }
-    catch(e){
-      if (kDebugMode) {
-        print("Error writing wifi password to Bluetooth\n");
+        print("Error: Error writing characteristic with id: $deviceId\n");
         print(e);
       }
       return false;

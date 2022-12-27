@@ -22,12 +22,12 @@ class DashboardState extends State<Dashboard> {
   List<Hogar>? hogares;
   List<Dispositivo>? dispositivosWithoutStadistics;
   List<Dispositivo>? dispositivosWithStadistics;
-  late Future<ListView> futureDashboarItems;
+  late Future<ListView> futureDashboardItems;
 
   @override
   void initState(){
     super.initState();
-    futureDashboarItems = getDashboardItems();
+    futureDashboardItems = getDashboardItems();
   }
 
   @override
@@ -60,7 +60,7 @@ class DashboardState extends State<Dashboard> {
                   "Datos del nuevo hogar",
                   "Enviar",
                   "Cancelar",
-                  onNewHogarUserData,
+                  onNewHogarUserInput,
                   (){} //Ignore on cancel
                 ).show(context);
               }
@@ -74,7 +74,7 @@ class DashboardState extends State<Dashboard> {
                       "Selecciona el hogar a eliminar",
                       "Eliminar",
                       "Cancelar",
-                      onDeleteHogarUserData,
+                      onDeleteHogarUserInput,
                       () {}, //Ignore on cancel
                       List.generate(hogares!.length, (i) => hogares![i].nombre)
                     ).show(context);
@@ -94,7 +94,7 @@ class DashboardState extends State<Dashboard> {
       ),
       body: Center(
         child: FutureBuilder<ListView>(
-          future: futureDashboarItems,
+          future: futureDashboardItems,
           builder: (context, snapshot){
             if(snapshot.hasData){
               return snapshot.data!;
@@ -123,7 +123,7 @@ class DashboardState extends State<Dashboard> {
     ));
   }
 
-  void onNewHogarUserData(Hogar hogar) async {
+  void onNewHogarUserInput(Hogar hogar) async {
     ProgressDialog progress = const ProgressDialog("Enviando");
 
     progress.show(context);
@@ -141,7 +141,7 @@ class DashboardState extends State<Dashboard> {
     }
   }
 
-  void onDeleteHogarUserData(int index) async {
+  void onDeleteHogarUserInput(int index) async {
     ProgressDialog progress = const ProgressDialog("Eliminando");
 
     progress.show(context);
@@ -164,7 +164,7 @@ class DashboardState extends State<Dashboard> {
       hogares = null;
       dispositivosWithoutStadistics = null;
       dispositivosWithStadistics = null;
-      futureDashboarItems = getDashboardItems();
+      futureDashboardItems = getDashboardItems();
     });
   }
 
